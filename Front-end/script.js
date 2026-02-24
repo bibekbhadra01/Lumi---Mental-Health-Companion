@@ -6,11 +6,30 @@ const musicBtn = document.getElementById("musicBtn");
 const musicPlayer = document.getElementById("musicPlayer");
 const spotifyFrame = document.getElementById("spotifyFrame");
 
+const features = document.querySelectorAll(".feature");
+
 const playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0";
 
-musicBtn.addEventListener("click", () => {
-  spotifyFrame.src = playlistURL;
-  musicPlayer.style.display = "block";
+features.forEach(feature => {
+  feature.addEventListener("click", () => {
+
+    // Remove active class from all
+    features.forEach(f => f.classList.remove("active"));
+    feature.classList.add("active");
+
+    // If music clicked → show player
+    if (feature.id === "musicBtn") {
+      spotifyFrame.src = playlistURL;
+      musicPlayer.style.display = "block";
+    } 
+    
+    // Any other feature → hide player
+    else {
+      spotifyFrame.src = ""; // stops music
+      musicPlayer.style.display = "none";
+    }
+
+  });
 });
 
 function sendMessage() {
