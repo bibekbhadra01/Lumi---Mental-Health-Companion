@@ -4,7 +4,7 @@ import requests
 
 app = FastAPI()
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = "http://localhost:11434/api/chat"
 MODEL_NAME = "mental-health-bot"
 
 class ChatRequest(BaseModel):
@@ -14,11 +14,13 @@ class ChatRequest(BaseModel):
 def chat(request: ChatRequest):
     payload = {
         "model": MODEL_NAME,
-        "prompt": request.message,
+        "messages": [
+            {"role": "user", "content": request.message}
+        ],
         "stream": False
     }
 
     response = requests.post(OLLAMA_URL, json=payload)
     result = response.json()
 
-    return {"response": result["response"]}
+    return {"response": result["message"]["content"]}
