@@ -32,7 +32,7 @@ features.forEach(feature => {
   });
 });
 
-function sendMessage() {
+async function sendMessage() {
 
   const text = input.value.trim();
   if (!text) return;
@@ -42,13 +42,28 @@ function sendMessage() {
 
   showTyping();
 
-  // 🔹 Replace this with your backend call later
-  setTimeout(() => {
-    removeTyping();
-    addBotMessage("I'm here with you 🌿 Tell me more.");
-  }, 1500);
-}
+  try {
+    const response = await fetch("http://127.0.0.1:8000/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: text
+      })
+    });
 
+    const data = await response.json();
+
+    removeTyping();
+    addBotMessage(data.response);
+
+  } catch (error) {
+    removeTyping();
+    addBotMessage("⚠️ Backend not reachable.");
+    console.error(error);
+  }
+}
 
 /* ---------- USER MESSAGE ---------- */
 
@@ -102,7 +117,7 @@ function showTyping() {
   typingRow.className = "msg-row bot";
 
   const logo = document.createElement("img");
-  logo.src = "lumi-logo.png";
+  logo.src = "lumi-logo.jpeg";
   logo.className = "bot-logo";
 
   const bubble = document.createElement("div");
@@ -126,3 +141,11 @@ function removeTyping() {
 function scrollDown() {
   chatBox.scrollTop = chatBox.scrollHeight;
 }
+
+sendBtn.addEventListener("click", sendMessage);
+
+input.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    sendMessage();
+  }
+});

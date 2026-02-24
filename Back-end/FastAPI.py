@@ -1,11 +1,23 @@
+main.py(FastAPI.py)
+
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 
 app = FastAPI()
 
+# ✅ Enable CORS (VERY IMPORTANT for frontend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # For development
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 OLLAMA_URL = "http://localhost:11434/api/chat"
-MODEL_NAME = "mental-health-bot"
+MODEL_NAME = "mental_health_chatbot"
 
 class ChatRequest(BaseModel):
     message: str
