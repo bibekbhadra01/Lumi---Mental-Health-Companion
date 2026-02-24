@@ -2,12 +2,16 @@ const input = document.getElementById("messageInput");
 const sendBtn = document.getElementById("sendBtn");
 const chatBox = document.getElementById("chatBox");
 
-sendBtn.onclick = sendMessage;
+const musicBtn = document.getElementById("musicBtn");
+const musicPlayer = document.getElementById("musicPlayer");
+const spotifyFrame = document.getElementById("spotifyFrame");
 
-input.addEventListener("keypress", e => {
-  if (e.key === "Enter") sendMessage();
+const playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0";
+
+musicBtn.addEventListener("click", () => {
+  spotifyFrame.src = playlistURL;
+  musicPlayer.style.display = "block";
 });
-
 
 function sendMessage() {
 

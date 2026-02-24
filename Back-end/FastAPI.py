@@ -10,17 +10,30 @@ MODEL_NAME = "mental-health-bot"
 class ChatRequest(BaseModel):
     message: str
 
+chat_history = []
+
 @app.post("/chat")
 def chat(request: ChatRequest):
+
+    chat_history.append({
+        "role": "user",
+        "content": request.message
+    })
+
     payload = {
         "model": MODEL_NAME,
-        "messages": [
-            {"role": "user", "content": request.message}
-        ],
+        "messages": chat_history,
         "stream": False
     }
 
     response = requests.post(OLLAMA_URL, json=payload)
     result = response.json()
 
-    return {"response": result["message"]["content"]}
+    assistant_reply = result["message"]["content"]
+
+    chat_history.append({
+        "role": "assistant",
+        "content": assistant_reply
+    })
+
+    return {"response": assistant_reply}
