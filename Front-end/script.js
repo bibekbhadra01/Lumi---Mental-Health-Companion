@@ -8,7 +8,7 @@ const spotifyFrame = document.getElementById("spotifyFrame");
 
 const features = document.querySelectorAll(".feature");
 
-const playlistURL = "https://open.spotify.com/embed/playlist/37i9dQZF1DX3rxVfibe1L0";
+const playlistURL = "https://open.spotify.com/embed/playlist/3QQkQsYBTKZaKKsVINZdHA?utm_source=generator";
 
 features.forEach(feature => {
   feature.addEventListener("click", () => {
