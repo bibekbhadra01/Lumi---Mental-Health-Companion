@@ -1,0 +1,214 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  font-family: "Segoe UI", sans-serif;
+}
+
+body {
+  background: #f5f4ef;
+}
+
+/* Layout */
+
+.app {
+  display: flex;
+  height: 100vh;
+}
+
+/* 🌿 SIDEBAR */
+
+.sidebar {
+  width: 260px;
+  background: #f0efd1;
+  border-right: 1px solid #ddd;
+  padding: 26px 18px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.brand h2 { color: #3d5c52; }
+.brand p { font-size: 13px; color: #6f7d78; }
+
+.features-title {
+  margin-top: 30px;
+  margin-bottom: 12px;
+  font-size: 12px;
+  color: #8b8b8b;
+  letter-spacing: 1px;
+}
+
+.features-list { list-style: none; }
+
+.feature {
+  padding: 12px;
+  border-radius: 12px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.feature:hover { background: #e6ebe7; }
+
+.feature.active {
+  background: #dfe7e3;
+  font-weight: 600;
+}
+
+/* 🌿 MAIN */
+
+.main {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 30px;
+}
+
+/* 🌿 CHAT CONTAINER */
+
+.chat-container {
+  width: 720px;
+  max-width: 95vw;
+  text-align: center;
+}
+
+.chat-container h1 {
+  margin-bottom: 20px;
+}
+
+/* 💬 CHAT BOX */
+
+.chat-box {
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+/* Message rows */
+
+.msg-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+/* USER */
+
+.msg-row.user {
+  justify-content: flex-end;
+}
+
+/* BOT */
+
+.msg-row.bot {
+  justify-content: flex-start;
+}
+
+/* Custom logo beside bot */
+
+.bot-logo {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Base bubble */
+
+.msg {
+  padding: 12px 16px;
+  border-radius: 18px;
+  max-width: 65%;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+/* 🌿 USER GREEN */
+
+.msg.user {
+  background:  #5f7f5f;
+  color: white;
+  border-bottom-right-radius: 6px;
+}
+
+/* 💛 BOT YELLOW */
+
+.msg.bot {
+  background: #f6f1c6;
+  color: #3f4f49;
+  border-bottom-left-radius: 6px;
+  border: 1px solid #e8e0a6;
+}
+
+/* Typing */
+
+.typing {
+  font-style: italic;
+  opacity: 0.7;
+}
+
+/* ✉️ INPUT BAR */
+
+.chat-input {
+  display: flex;
+  background: #fbfbfa;
+  border: 2px solid #3f3f3f;
+  border-radius: 40px;
+  padding: 8px;
+}
+
+.chat-input input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 12px 16px;
+  font-size: 16px;
+}
+
+/* Send button */
+
+.chat-input button {
+  background: #5f7f5f;
+  color: white;
+  border: none;
+  padding: 12px 26px;
+  border-radius: 30px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.chat-input button:hover {
+  background:  #5f7f5f;
+}
+
+/* 📱 Responsive */
+
+@media (max-width: 800px) {
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    padding: 12px;
+  }
+
+  .chat-container h1 {
+    font-size: 24px;
+  }
+
+}
