@@ -1,5 +1,3 @@
-main.py(FastAPI.py)
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -21,20 +19,32 @@ MODEL_NAME = "mental_health_chatbot"
 
 class ChatRequest(BaseModel):
     message: str
+    mode: str
 
-chat_history = []
+chat_histories = {
+    "general": [],
+    "rant": [],
+    "selfcare": [],
+    "breathing": [],
+    "music": []
+}
 
 @app.post("/chat")
 def chat(request: ChatRequest):
 
-    chat_history.append({
+    mode = request.mode
+
+    if mode not in chat_histories:
+        chat_histories[mode] = []
+
+    chat_histories[mode].append({
         "role": "user",
         "content": request.message
     })
 
     payload = {
         "model": MODEL_NAME,
-        "messages": chat_history,
+        "messages": chat_histories[mode],
         "stream": False
     }
 
@@ -43,7 +53,7 @@ def chat(request: ChatRequest):
 
     assistant_reply = result["message"]["content"]
 
-    chat_history.append({
+    chat_histories[mode].append({
         "role": "assistant",
         "content": assistant_reply
     })
