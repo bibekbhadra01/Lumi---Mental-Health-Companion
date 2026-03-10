@@ -69,8 +69,9 @@ features.forEach(feature => {
     else if (featureText.includes("breathing")) {
       switchMode("breathing");
       hideMusic();
-      addBotMessage("You are now in Breathing Mode. Follow the exercise with me.");
-      startBreathingExercise();
+      addBotMessage("You are now in Breathing Mode. Click 'Start ' to begin.");
+
+      showBreathingButton();
     }
     else if (featureText.includes("music")) {
       switchMode("music");
@@ -143,31 +144,49 @@ async function sendMessage() {
 --------------------------*/
 
 function startBreathingExercise() {
-
-  // Clear any existing timers
-  breathingTimers.forEach(timer => clearTimeout(timer));
+  breathingTimers.forEach(t => clearTimeout(t));
   breathingTimers = [];
 
   const steps = [
-    "🌬️ Inhale slowly for 4 seconds...",
-    "Hold for 4 seconds...",
-    "Exhale gently for 6 seconds...",
-    "Let's repeat that once more..."
+    { text: "🌬️ Inhale slowly for 4 seconds...", time: 4 },
+    { text: "⏸️ Hold for 4 seconds...",           time: 4 },
+    { text: "😮‍💨 Exhale gently for 6 seconds...", time: 6 },
+    { text: "🔁 One more round...",               time: 4 }
   ];
 
   let index = 0;
 
   function nextStep() {
-
-    if (currentMode !== "breathing") return; // STOP if mode changed
-
-    if (index < steps.length) {
-      addBotMessage(steps[index]);
-      index++;
-
-      const timer = setTimeout(nextStep, 4000);
-      breathingTimers.push(timer);
+    if (currentMode !== "breathing") return;
+    if (index >= steps.length) {
+      // All steps done
+      addBotMessage("✅ Great job! You've completed the breathing exercise. How do you feel?");
+      return;
     }
+
+    const step = steps[index];
+    const barId = "breath-bar-" + index;   // unique ID per step
+
+    // 1. Render chat bubble with embedded progress container
+    addBotMessage(`
+      <div class="breathing-step">
+        <span class="step-text">${step.text}</span>
+        <div class="progress-container" id="${barId}"></div>
+      </div>
+    `);
+
+    // 2. Wait for DOM to paint, THEN start animation
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        startBreathing(step.time, barId);
+      });
+    });
+
+    index++;
+
+    // 3. Schedule next step after this one finishes
+    const timer = setTimeout(nextStep, step.time * 1000 + 100); // +100ms buffer
+    breathingTimers.push(timer);
   }
 
   nextStep();
@@ -215,7 +234,11 @@ function addBotMessage(text) {
 
 function formatMessage(text) {
 
-  // Escape HTML to prevent injection
+  // Allow HTML in breathing mode
+  if (currentMode === "breathing") {
+    return text;
+  }  
+
   text = text
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
@@ -328,4 +351,26 @@ input.addEventListener("keypress", function (e) {
   if (e.key === "Enter") {
     sendMessage();
   }
+});
+
+//loading breathing animation dynamically
+const breathingBtn = document.getElementById("breathingBtn");
+const featureArea = document.getElementById("featureArea");
+
+breathingBtn.addEventListener("click", () => {
+
+    fetch("../modes/breathing/frontend/breathing.html")
+    .then(response => response.text())
+    .then(data => {
+
+        chatBox.innerHTML += data;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // load breathing JS
+        const script = document.createElement("script");
+        script.src = "../modes/breathing/frontend/breathing.js";
+        document.body.appendChild(script);
+
+    });
+
 });
