@@ -53,15 +53,35 @@ body {
 .feature {
   padding: 12px;
   border-radius: 12px;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.feature:hover { background: #e6ebe7; }
+.feature:hover {
+  background: #e6ebe7;
+  transform: translateX(6px) scale(1.03);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
 
 .feature.active {
   background: #dfe7e3;
   font-weight: 600;
+  transform: translateX(6px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.center-area {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chat-container {
+  width: 720px;
+  max-width: 95vw;
+  text-align: center;
 }
 
 /* 🌿 MAIN */
@@ -69,9 +89,8 @@ body {
 .main {
   flex: 1;
   display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  padding: 30px;
+  flex-direction: column;
+  padding: 0;
 }
 
 /* 🌿 CHAT CONTAINER */
@@ -147,15 +166,12 @@ body {
 /* 💛 BOT YELLOW */
 
 .msg.bot {
-  background-color: #e8efe9;   /* soft green tone */
-  color: #2b2b2b;
-  padding: 10px 14px;          /* slightly tighter */
-  border-radius: 18px;
-  max-width: 60%;
-  line-height: 1.5;
-  font-size: 14px;
-  white-space: pre-wrap;                
+  background: #f6f1c6;
+  color: #3f4f49;
+  border-bottom-left-radius: 6px;
+  border: 1px solid #e8e0a6;
 }
+
 /* Typing */
 
 .typing {
@@ -214,4 +230,120 @@ body {
     font-size: 24px;
   }
 
+}
+
+
+/* LOGIN PAGE */
+
+.login-page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #e8f5e9; /* same soft green */
+}
+
+.login-box {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.login-box h1 {
+  margin-bottom: 5px;
+}
+
+.login-box p {
+  margin-bottom: 20px;
+  color: gray;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 8px;
+  cursor: pointer;
+}
+
+.toggle {
+  position: relative;
+  display: flex;
+  background: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.toggle button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  background: transparent;
+  z-index: 2;
+  cursor: pointer;
+}
+
+#slider {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: #4caf50;
+  left: 0%;
+  transition: 0.3s;
+  border-radius: 20px;
+}
+
+#name {
+  transition: 0.3s;
+  overflow: hidden;
+}
+
+
+/* Log out Button */
+/* TOP BAR */
+
+.top-bar {
+  width: 100%;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+
+/* LOGOUT BUTTON */
+
+.logout-btn {
+  background: #5c7c5c;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  background: #4e6e4e;
 }

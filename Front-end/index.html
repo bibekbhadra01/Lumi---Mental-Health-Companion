@@ -1,74 +1,126 @@
 <!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Lumi — Mental Health Companion</title>
-<link rel="stylesheet" href="style.css">
+  <title>Lumi Login</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+<div class="login-page">
 
-  <!-- 🌿 SIDEBAR -->
-  <aside class="sidebar">
+  <div class="login-box">
 
-    <div class="brand">
-      <img src="logo.jpeg" class="sidebar-logo">
-      <div>
-        <h2>Lumi</h2>
-        <p>Mental Health Companion</p>
-      </div>
-    </div>
+```
+<h1>Lumi</h1>
 
-    <p class="features-title">FEATURES</p>
-
-    <ul class="features-list">
-      <li class="feature active">💬 General Chat</li>
-      <li class="feature">🔥 Rant Mode</li>
-      <li class="feature">🌬️ Breathing</li>
-      <li class="feature">🌸 Self-Care</li>
-      <li class="feature" id="musicBtn">🎵 Music</li>
-    </ul>
-
-  </aside>
-
-
-  <!-- 🌿 MAIN AREA -->
-  <main class="main">
-
-    <div class="chat-container">
-
-      <h1>How can I help you today?</h1>
-
-      <!-- 💬 MESSAGES -->
-      <div id="chatBox" class="chat-box"></div>
-
-      <!-- ✉️ INPUT -->
-      <div class="chat-input">
-        <input id="messageInput" placeholder="Chat here..." />
-        <button id="sendBtn">Send</button>
-      </div>
-
-    </div>
-
-    <div id="musicPlayer" style="display:none; margin-top:20px;">
-  <iframe
-    id="spotifyFrame"
-    style="border-radius:12px"
-    src=""
-    width="100%"
-    height="352"
-    frameBorder="0"
-    allowfullscreen=""
-    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
-  </iframe>
+<div class="toggle">
+  <div id="slider"></div>
+  <button onclick="setMode('login')">Login</button>
+  <button onclick="setMode('signup')">Sign Up</button>
 </div>
 
-  </main>
+<input id="name" placeholder="Name">
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button id="mainBtn" onclick="submitForm()">Login</button>
+```
+
+  </div>
 
 </div>
 
-<script src="script.js"></script>
+<script>
+
+let mode = "login";
+
+function setMode(m) {
+
+  mode = m;
+
+  const slider = document.getElementById("slider");
+  const nameField = document.getElementById("name");
+  const btn = document.getElementById("mainBtn");
+
+  if (mode === "login") {
+    slider.style.left = "0%";
+    nameField.style.opacity = "0";
+    nameField.style.height = "0px";
+    btn.innerText = "Login";
+  }
+
+  else {
+    slider.style.left = "50%";
+    nameField.style.opacity = "1";
+    nameField.style.height = "40px";
+    btn.innerText = "Sign Up";
+  }
+
+}
+
+
+function getUsers() {
+  return JSON.parse(localStorage.getItem("users")) || [];
+}
+
+function saveUsers(users) {
+  localStorage.setItem("users", JSON.stringify(users));
+}
+
+
+function submitForm() {
+
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  let users = getUsers();
+
+
+  if (mode === "signup") {
+
+    let exists = users.find(u => u.email === email);
+
+    if (exists) {
+      alert("User exists");
+      return;
+    }
+
+    users.push({ name, email, password });
+
+    saveUsers(users);
+
+    alert("Signup successful");
+
+  }
+
+  else {
+
+    let user = users.find(
+      u => u.email === email && u.password === password
+    );
+
+    if (user) {
+
+      localStorage.setItem("loggedIn", "true");
+      localStorage.setItem("username", user.name);
+
+      window.location.href = "chat.html";
+
+    } else {
+      alert("Invalid login");
+    }
+
+  }
+
+}
+
+
+setMode("login");
+
+</script>
+
 </body>
-</html
+</html>
